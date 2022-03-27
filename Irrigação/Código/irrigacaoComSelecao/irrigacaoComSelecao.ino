@@ -265,6 +265,6 @@ void MostrarDadosLCD(){
   //Posiciona o cursor na coluna 0, linha 0;
   lcd.setCursor(0, 0);
   //lcd.setCursor(0, 1);
-  lcd.print("Modo:"+ texto_sistema);
+  lcd.print(texto_sistema);
 
 }
