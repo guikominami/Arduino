@@ -56,20 +56,11 @@ void loop() {
 
   //-----------------------------------
 
-  //acende o LED amarelo carro
-  digitalWrite(ledAmarelo, HIGH);
-
   //apaga o LED verde pedestre
   digitalWrite(ledVerdePedestre, LOW);  
 
   //acende o LED vermelho pedestre
   digitalWrite(ledVermelhoPedestre, HIGH);  
-
-  //aguarda 1 segundo
-  delay(1000);
-  
-  //Apaga o LED amarelo carro
-  digitalWrite(ledAmarelo, LOW);
 
   //-----------------------------------
 
@@ -81,6 +72,15 @@ void loop() {
   
   //Apaga o LED verde carro
   digitalWrite(ledVerde, LOW);
+  
+  //acende o LED amarelo carro
+  digitalWrite(ledAmarelo, HIGH);  
+  
+  //aguarda 1 segundo
+  delay(1000);
+  
+  //Apaga o LED amarelo carro
+  digitalWrite(ledAmarelo, LOW);  
 
   //apaga o LED vermelho pedestre
   digitalWrite(ledVermelhoPedestre, LOW);
