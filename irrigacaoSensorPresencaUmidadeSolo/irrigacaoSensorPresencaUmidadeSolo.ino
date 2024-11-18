@@ -8,18 +8,11 @@ int retorno_sensor_umidade = 0;
 int retorno_sensor_presenca = 0;
 
 //--------------------------------------------------------------------------------
-const long segundo = 1;
-const long minuto = segundo * 60;
-const long hora = minuto * 60;
-const long meio_dia = hora * 12;
-const long dia = hora * 24;
-
-//--------------------------------------------------------------------------------
 //  valores padrões de irrigação - ALTERAR
 //--------------------------------------------------------------------------------
 //long tempo_irrigacao_espera = dia;
-long tempo_irrigacao_espera = minuto;
-int tempo_irrigacao_ligado = minuto;
+long tempo_irrigacao_espera = 60;
+int tempo_irrigacao_ligado = 10000;
 
 int contador = 0;
 
@@ -37,6 +30,9 @@ void setup() {
   pinMode(sensor_presenca, INPUT);   
     
   pinMode(rele, OUTPUT);
+
+  //Apaga o rele
+  digitalWrite(rele, HIGH);  
   
 }
 
@@ -45,6 +41,10 @@ void loop() {
   //a cada segundo, o contador aumenta 1. Se for maior que o valor definido, checar o sensor de umidade
   if (contador < tempo_irrigacao_espera){
     contador ++;
+
+    Serial.println("contador:");
+    Serial.println(contador);    
+    
     delay(1000);
   }
   else{
@@ -63,14 +63,17 @@ void SensorUmidade(){
   Serial.println("Sensor de umidade:");
   Serial.println(retorno_sensor_umidade);
 
+  delay(5000);
+
   if (retorno_sensor_umidade < limite_molhado)
   {
-    digitalWrite(rele, HIGH);
+    digitalWrite(rele, LOW);
     delay(tempo_irrigacao_ligado);
+    digitalWrite(rele, HIGH);    
   }
   else
   {
-    digitalWrite(rele, LOW);
+    digitalWrite(rele, HIGH);
   }  
 }
 
@@ -84,13 +87,14 @@ void SensorPresenca(){
   if (retorno_sensor_presenca == 0)
   {
     //liga o rele
-    digitalWrite(rele, HIGH);
+    digitalWrite(rele, LOW);
     delay(tempo_irrigacao_ligado);
+    digitalWrite(rele, HIGH);    
   }
   else
   {
     //Apaga o rele
-    digitalWrite(rele, LOW);
+    digitalWrite(rele, HIGH);
   }
 
 }
