@@ -12,9 +12,9 @@ int retorno_sensor_presenca = 0;
 //--------------------------------------------------------------------------------
 //12h de espera
 long tempo_irrigacao_espera = 43200;
-int tempo_irrigacao_ligado = 60000;
+int tempo_irrigacao_ligado = 60;
 
-int contador = 0;
+int contador_espera = 0;
 
 //-------------------------------------------------------------
 //  ALTERAR AQUI O VALOR DO LIMITE ENTRE O MOLHADO E O SECO
@@ -39,17 +39,17 @@ void setup() {
 void loop() {
 
   //a cada segundo, o contador aumenta 1. Se for maior que o valor definido, checar o sensor de umidade
-  if (contador < tempo_irrigacao_espera){
-    contador ++;
+  if (contador_espera < tempo_irrigacao_espera){
+    contador_espera ++;
 
-    Serial.println("contador:");
-    Serial.println(contador);    
+    Serial.println("contador_espera:");
+    Serial.println(contador_espera);    
     
     delay(1000);
   }
   else{
     SensorUmidade();        
-    contador = 0;
+    contador_espera = 0;
   }
 
   SensorPresenca();  
@@ -67,9 +67,7 @@ void SensorUmidade(){
 
   if (retorno_sensor_umidade < limite_molhado)
   {
-    digitalWrite(rele, LOW);
-    delay(tempo_irrigacao_ligado);
-    digitalWrite(rele, HIGH);    
+    Irrigar();  
   }
   else
   {
@@ -86,15 +84,32 @@ void SensorPresenca(){
 
   if (retorno_sensor_presenca == 0)
   {
-    //liga o rele
-    digitalWrite(rele, LOW);
-    delay(tempo_irrigacao_ligado);
-    digitalWrite(rele, HIGH);    
+    Irrigar();
   }
   else
   {
     //Apaga o rele
     digitalWrite(rele, HIGH);
   }
+
+}
+
+void Irrigar(){
+
+  int contador_irrigar = 0;
+
+  //liga o rele
+  digitalWrite(rele, LOW); 
+
+  while (contador_irrigar < tempo_irrigacao_ligado){
+
+    Serial.println("contador_irrigar:");
+    Serial.println(contador_irrigar);
+
+    delay(1000);
+    contador_irrigar ++;
+  }
+
+  digitalWrite(rele, HIGH);  
 
 }
