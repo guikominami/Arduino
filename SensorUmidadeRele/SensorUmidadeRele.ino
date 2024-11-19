@@ -42,11 +42,12 @@ void SensorUmidade(){
 
   if (retorno_sensor < limite_molhado)
   {
-    digitalWrite(rele, HIGH);
+    digitalWrite(rele, LOW);
     delay(tempo_irrigacao);
+    digitalWrite(rele, HIGH);    
   }
   else
   {
-    digitalWrite(rele, LOW);
+    digitalWrite(rele, HIGH);
   }  
 }
