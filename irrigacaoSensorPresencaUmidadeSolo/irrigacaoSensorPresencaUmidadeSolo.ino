@@ -10,9 +10,9 @@ int retorno_sensor_presenca = 0;
 //--------------------------------------------------------------------------------
 //  valores padrões de irrigação - ALTERAR
 //--------------------------------------------------------------------------------
-//long tempo_irrigacao_espera = dia;
-long tempo_irrigacao_espera = 60;
-int tempo_irrigacao_ligado = 10000;
+//12h de espera
+long tempo_irrigacao_espera = 43200;
+int tempo_irrigacao_ligado = 60000;
 
 int contador = 0;
 
