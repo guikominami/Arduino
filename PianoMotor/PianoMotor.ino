@@ -1,14 +1,20 @@
 #include "pitches.h"
+
+//pino do buzzer na 7
 #define speaker 7  
+
+//pinos do ultrassom: trig 5, echo 6
 #define trigger 5   
 #define echo 6   
 
+//botão na porta 8
 int buttonPin = 8;
 
 int distance_cm = 0;
 int time = 0;
 int counter = 0;
 
+//matriz de notas musicais
 int note[] = {
   NOTE_B0, NOTE_C1, NOTE_CS1, NOTE_D1, NOTE_DS1, NOTE_E1, NOTE_F1, NOTE_FS1, NOTE_G1, NOTE_GS1, 
   NOTE_A1, NOTE_AS1, NOTE_B1, NOTE_C2, NOTE_CS2, NOTE_D2, NOTE_DS2, NOTE_E2, NOTE_F2, NOTE_FS2,
@@ -23,11 +29,14 @@ int note[] = {
 
 void setup()                    
 {
+  //definição do pino do botão
   pinMode(buttonPin, INPUT);
+  //saída do motor, poderia ser em uma digital também.
   pinMode(A0, OUTPUT);
   
   Serial.begin(9600);
 
+  //definições dos pinos do ultrasonido
   pinMode(trigger, OUTPUT);
   digitalWrite(trigger, LOW);
   delayMicroseconds(10);
@@ -39,16 +48,25 @@ void setup()
 
 void loop()                    
 { 
+  //leitura dos dados de ultrasonido e armazena o valor em centímetros.
   int distance = readUltrasonic();
 
   Serial.println("distance");
   Serial.println(distance);
 
+  //se pressionar o botão
   if (digitalRead(buttonPin) == HIGH) {
+    
+    //toca um som de acordo com a matriz de nota musical e a distância do ultrasonido. 
+    //Ex.: Sua mão está a 10cm, a nota selecionada é note[10] da matriz de notas musicais
+    //definidas no início do código. NOTE_A1
     tone(speaker, note[distance], 20);
+
+    //encende o motor como porta digital
     digitalWrite(A0, HIGH);
   }
   else{
+    //se o botão não estiver sendo pressionado, apaga o motor e o buzzer.
     noTone(speaker);
     digitalWrite(A0, LOW);
   }
@@ -60,14 +78,18 @@ int readUltrasonic(){
 
   int distance = 0;
 
+  //envia o som do ultrassom
   digitalWrite(trigger, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigger, LOW);
   
+  //leitura do retorno do ultrassom
   time = pulseIn(echo, HIGH);
   
+  //calcula a distância
   distance = time / 29.4 / 2;
 
+  //retorna a distância em cm
   return distance;
 
 }
